@@ -76,7 +76,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void confirmToken(String token) {
+    public boolean confirmToken(String token) {
         Token confirmationToken = tokenService.findByToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid token"));
 
@@ -88,11 +88,12 @@ public class UserService implements UserDetailsService {
 
         if(expiresAt.isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("Token expired");
+        }else{
+            confirmationToken.setConfirmedAt(LocalDateTime.now());
+            tokenService.save(confirmationToken);
+
+            enableUser(confirmationToken.getUser());
+            return true;
         }
-
-        confirmationToken.setConfirmedAt(LocalDateTime.now());
-        tokenService.save(confirmationToken);
-
-        enableUser(confirmationToken.getUser());
     }
 }

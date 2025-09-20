@@ -26,7 +26,7 @@ public class EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
 
             message.setTo(to);
-            message.setFrom("learnwithiftekhar@gmail.com");
+            message.setFrom("alser5846@gmail.com");
             message.setSubject("Confirm your email");
             String body = """
 
