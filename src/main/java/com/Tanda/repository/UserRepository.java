@@ -1,6 +1,6 @@
-package com.learnwithiftekhar.auth_demo.repository;
+package com.Tanda.repository;
 
-import com.learnwithiftekhar.auth_demo.entity.User;
+import com.Tanda.entity.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

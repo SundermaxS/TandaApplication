@@ -1,4 +1,4 @@
-package com.learnwithiftekhar.auth_demo.entity;
+package com.Tanda.entity;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;

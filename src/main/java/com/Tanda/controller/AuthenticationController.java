@@ -1,7 +1,7 @@
-package com.learnwithiftekhar.auth_demo.controller;
+package com.Tanda.controller;
 
-import com.learnwithiftekhar.auth_demo.entity.User;
-import com.learnwithiftekhar.auth_demo.service.UserService;
+import com.Tanda.entity.User;
+import com.Tanda.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

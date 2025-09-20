@@ -1,18 +1,15 @@
-package com.learnwithiftekhar.auth_demo.service;
+package com.Tanda.service;
 
-import com.learnwithiftekhar.auth_demo.entity.Token;
-import com.learnwithiftekhar.auth_demo.entity.Role;
-import com.learnwithiftekhar.auth_demo.entity.User;
-import com.learnwithiftekhar.auth_demo.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
+import com.Tanda.entity.Token;
+import com.Tanda.entity.Role;
+import com.Tanda.entity.User;
+import com.Tanda.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

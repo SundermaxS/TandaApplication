@@ -1,7 +1,7 @@
-package com.learnwithiftekhar.auth_demo.service;
+package com.Tanda.service;
 
-import com.learnwithiftekhar.auth_demo.entity.Token;
-import com.learnwithiftekhar.auth_demo.repository.TokenRepository;
+import com.Tanda.entity.Token;
+import com.Tanda.repository.TokenRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

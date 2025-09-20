@@ -1,4 +1,4 @@
-package com.learnwithiftekhar.auth_demo.service;
+package com.Tanda.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
