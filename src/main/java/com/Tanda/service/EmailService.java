@@ -33,7 +33,7 @@ public class EmailService {
                     Hello from Awesome App Team!
                     Please use the following link to verify your email:
 
-                    http://localhost:8080/register/confirmToken?token=%s
+                    http://localhost:8080/api/auth/confirmToken?token=%s
                     """.formatted(token);
             message.setText(body);
             mailSender.send(message);

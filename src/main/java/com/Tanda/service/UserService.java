@@ -5,6 +5,7 @@ import com.Tanda.entity.Role;
 import com.Tanda.entity.User;
 import com.Tanda.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -35,9 +37,22 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
+        // Создаём Spring Security User, привязывая enabled/locked
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),                    // username = email
+                user.getPassword(),                 // already encoded
+                user.isEnabled(),                   // enabled
+                true,                               // accountNonExpired
+                true,                               // credentialsNonExpired
+                !user.isLocked(),                   // accountNonLocked
+                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+        );
     }
+
 
     public User registerUser(User user) {
         // check if user with username or email already exist
@@ -88,7 +103,7 @@ public class UserService implements UserDetailsService {
         }else{
             confirmationToken.setConfirmedAt(LocalDateTime.now());
             tokenService.save(confirmationToken);
-
+//TODO тут пздц крч скорее всего тут не работает enable true его надо починить и будет работать логин
             enableUser(confirmationToken.getUser());
             return true;
         }
