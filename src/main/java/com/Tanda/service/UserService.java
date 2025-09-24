@@ -103,7 +103,6 @@ public class UserService implements UserDetailsService {
         }else{
             confirmationToken.setConfirmedAt(LocalDateTime.now());
             tokenService.save(confirmationToken);
-//TODO тут пздц крч скорее всего тут не работает enable true его надо починить и будет работать логин
             enableUser(confirmationToken.getUser());
             return true;
         }
