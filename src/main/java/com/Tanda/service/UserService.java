@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -53,7 +54,10 @@ public class UserService implements UserDetailsService {
         );
     }
 
-
+    public Optional<User> findUser(String name){
+        Optional<User> user = userRepository.findByEmail(name);
+        return user;
+    }
     public User registerUser(User user) {
         // check if user with username or email already exist
         userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail())

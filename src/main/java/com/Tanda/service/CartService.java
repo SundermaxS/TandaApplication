@@ -21,11 +21,12 @@ public class CartService {
     private final ProductRepository productRepository;
 
     public Cart getUserCart(User user) {
-        return cartRepository.findByUser(user).orElseGet(() -> {
-            Cart newCart = Cart.builder().user(user).build();
-            return cartRepository.save(newCart);
-        });
+        Cart cart = cartRepository.findByUser(user)
+                .orElseGet(() -> cartRepository.save(Cart.builder().user(user).build()));
+        cart.getItems().size(); // 🔥 заставляет Hibernate загрузить items
+        return cart;
     }
+
 
     public Cart addProduct(User user, Long productId, int quantity) {
         Cart cart = getUserCart(user);

@@ -2,7 +2,9 @@ package com.Tanda.controller;
 
 import com.Tanda.entity.Cart;
 import com.Tanda.entity.User;
+import com.Tanda.repository.UserRepository;
 import com.Tanda.service.CartService;
+import com.Tanda.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,15 @@ public class CartController {
 
     private final CartService cartService;
 
+    private final UserService userService;
+
     @GetMapping
-    public Cart getCart(@AuthenticationPrincipal User user) {
+    public Cart getCart(@AuthenticationPrincipal org.springframework.security.core.userdetails.User principal) {
+        User user = userService.findUser(principal.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         return cartService.getUserCart(user);
     }
+
 
     @PostMapping("/add")
     public Cart addItem(@AuthenticationPrincipal User user,
