@@ -23,7 +23,7 @@ public class CartService {
     public Cart getUserCart(User user) {
         Cart cart = cartRepository.findByUser(user)
                 .orElseGet(() -> cartRepository.save(Cart.builder().user(user).build()));
-        cart.getItems().size(); // 🔥 заставляет Hibernate загрузить items
+        cart.getItems().size(); //заставит Hibernate загрузить items
         return cart;
     }
 
@@ -36,7 +36,7 @@ public class CartService {
                 .cart(cart)
                 .product(product)
                 .quantity(quantity)
-                .priceAtAdding(product.getPrice())
+                .priceAtAdding(product.getPrice() * quantity)
                 .build();
 
         cartItemRepository.save(item);

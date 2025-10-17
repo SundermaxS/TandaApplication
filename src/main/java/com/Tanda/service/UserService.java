@@ -54,10 +54,11 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    public Optional<User> findUser(String name){
-        Optional<User> user = userRepository.findByEmail(name);
+    public Optional<User> findUser(String email){
+        Optional<User> user = userRepository.findByEmail(email);
         return user;
     }
+
     public User registerUser(User user) {
         // check if user with username or email already exist
         userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail())
@@ -86,10 +87,6 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void enableUser(User user) {
-        user.setEnabled(true);
-        userRepository.save(user);
-    }
 
     @Transactional
     public boolean confirmToken(String token) {
@@ -110,5 +107,10 @@ public class UserService implements UserDetailsService {
             enableUser(confirmationToken.getUser());
             return true;
         }
+    }
+
+    private void enableUser(User user) {
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }

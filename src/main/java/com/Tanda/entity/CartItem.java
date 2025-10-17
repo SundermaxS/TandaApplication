@@ -17,7 +17,7 @@ public class CartItem {
     private Long id;
 
     private Integer quantity;
-    private BigDecimal priceAtAdding;
+    private Long priceAtAdding;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
