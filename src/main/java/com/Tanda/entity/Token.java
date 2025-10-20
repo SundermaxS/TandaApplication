@@ -3,9 +3,7 @@ package com.Tanda.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "confirmatin_token")
