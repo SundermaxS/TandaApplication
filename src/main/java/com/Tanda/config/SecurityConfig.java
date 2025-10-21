@@ -1,6 +1,11 @@
 package com.Tanda.config;
 
+import com.Tanda.entity.Role;
+import com.Tanda.entity.User;
+import com.Tanda.repository.UserRepository;
 import com.Tanda.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,17 +23,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtAuthFilter jwtAuthFilter;
-
-    public SecurityConfig(UserService userService, PasswordEncoder passwordEncoder, JwtAuthFilter jwtAuthFilter) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtAuthFilter = jwtAuthFilter;
-    }
+    private final UserRepository userRepository;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -56,6 +57,23 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CommandLineRunner initUser() {
+        return args -> {
+            if(userRepository.findByEmail("230103246@sdu.edu.kz").isEmpty()){
+                User user = new User();
+                user.setEmail("230103246@sdu.edu.kz");
+                user.setPassword(passwordEncoder.encode("12345"));
+                user.setFirstName("Bekarys");
+                user.setLastName("Absattar");
+                user.setUsername("undermax88");
+                user.setRole(Role.USER);
+                user.setEnabled(true);
+                userRepository.save(user);
+            }
+        };
     }
 
 }

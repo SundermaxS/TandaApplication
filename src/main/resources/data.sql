@@ -1,5 +1,3 @@
-INSERT INTO users (enabled, locked, id, email,  first_name, last_name, password, role, username)
-VALUES (true, false,1, '230103246@sdu.edu.kz', 'Bekarys', 'Absattar', 12345, 'USER', 'undermax88');
 
 -- CATEGORIES
 INSERT INTO category (id, name) VALUES

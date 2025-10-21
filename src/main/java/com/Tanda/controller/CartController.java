@@ -2,11 +2,11 @@ package com.Tanda.controller;
 
 import com.Tanda.entity.Cart;
 import com.Tanda.entity.User;
-import com.Tanda.repository.UserRepository;
 import com.Tanda.service.CartService;
 import com.Tanda.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +19,7 @@ public class CartController {
     private final UserService userService;
 
     @GetMapping
-    public Cart getCart(@AuthenticationPrincipal org.springframework.security.core.userdetails.User principal) {
+    public Cart getCart(@AuthenticationPrincipal UserDetails principal) {
         User user = userService.findUser(principal.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return cartService.getUserCart(user);
@@ -27,7 +27,7 @@ public class CartController {
 
 
     @PostMapping("/add")
-    public Cart addItem(@AuthenticationPrincipal org.springframework.security.core.userdetails.User principal,
+    public Cart addItem(@AuthenticationPrincipal UserDetails principal,
                         @RequestParam Long productId,
                         @RequestParam int quantity) {
         User user = userService.findUser(principal.getUsername())
@@ -36,7 +36,7 @@ public class CartController {
     }
 
     @PutMapping("/update/{itemId}")
-    public Cart updateItem(@AuthenticationPrincipal org.springframework.security.core.userdetails.User principal,
+    public Cart updateItem(@AuthenticationPrincipal UserDetails principal,
                            @PathVariable Long itemId,
                            @RequestParam int quantity) {
         User user = userService.findUser(principal.getUsername())
@@ -45,7 +45,7 @@ public class CartController {
     }
 
     @DeleteMapping("/remove/{itemId}")
-    public Cart removeItem(@AuthenticationPrincipal org.springframework.security.core.userdetails.User principal,
+    public Cart removeItem(@AuthenticationPrincipal UserDetails principal,
                            @PathVariable Long itemId) {
         User user = userService.findUser(principal.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -53,7 +53,7 @@ public class CartController {
     }
 
     @DeleteMapping("/clear")
-    public void clearCart(@AuthenticationPrincipal org.springframework.security.core.userdetails.User principal) {
+    public void clearCart(@AuthenticationPrincipal UserDetails principal) {
         User user = userService.findUser(principal.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         cartService.clearCart(user);
