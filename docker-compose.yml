@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    container_name: tanda-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${SPRING_DATASOURCE_NAME}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: tanda-db
+    environment:
+      - POSTGRES_DB=${SPRING_DATASOURCE_NAME}
+      - POSTGRES_USER=${SPRING_DATASOURCE_USERNAME}
+      - POSTGRES_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
