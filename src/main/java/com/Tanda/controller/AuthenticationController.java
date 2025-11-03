@@ -3,6 +3,7 @@ package com.Tanda.controller;
 import com.Tanda.entity.User;
 import com.Tanda.service.JwtService;
 import com.Tanda.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,22 +15,21 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    public AuthenticationController(UserService userService,
-                                    AuthenticationManager authenticationManager,
-                                    JwtService jwtService) {
-        this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-    }
-
     @PostMapping("/register")
+    /**TODO
+     * здесь есть недочет если пользователь введет в джэйсон enable true то сможет с любой почты регаться
+     *  написал возможный вариант решения
+     */
     public ResponseEntity<String> register(@RequestBody User user) {
+        user.setEnabled(false);
+        user.setLocked(false);
         userService.registerUser(user);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("User registered. Please check your email to confirm.");
